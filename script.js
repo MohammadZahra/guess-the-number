@@ -8,8 +8,8 @@ function generateSecretNumber() {
   return Math.trunc(Math.random() * 30) + 1;
 }
 
-const displayMessage = function (toDisplayMessage) {
-  document.querySelector(".message").textContent = toDisplayMessage;
+const display = function (selected, todisplay) {
+  document.querySelector(`.${selected}`).textContent = todisplay;
 };
 
 const displayWinColors = function () {
@@ -21,32 +21,36 @@ const displayWinColors = function () {
 };
 
 const handleCorrectGuess = function () {
-  displayMessage("🥳 Correct Number!");
-  document.querySelector(".number").textContent = secretNumber;
+  display("message", "🥳 Correct Number!");
+  display("number", secretNumber);
   displayWinColors();
   if (score > highscore) {
+    if (highscore) {
+      document.querySelector("header > h1").textContent =
+        "🎉Congrats for a new Highscore🎉";
+    }
     highscore = score;
-    document.querySelector(".highscore").textContent = highscore;
+    display("highscore", highscore);
   }
 };
 
 const handleWrongGuess = function (guess) {
   score--;
-  document.querySelector(".score").textContent = score;
+  display("score", score);
   if (score > 0) {
-    displayMessage(
+    display(
+      "message",
       guess > secretNumber ? "👇 Try lower number!" : "☝️ Try higher number!"
     );
   } else {
-    displayMessage("😞 You lost the Game!");
+    display("message", "😞 You lost the Game!");
   }
 };
 
 document.querySelector(".check").addEventListener("click", function () {
   const guess = Number(document.querySelector(".guess").value);
-
   if (!guess || guess > 30 || guess < 0) {
-    displayMessage("❌ Invalid number");
+    display("message", "❌ Invalid number");
   } else if (guess === secretNumber) {
     handleCorrectGuess();
   } else {
@@ -57,6 +61,7 @@ document.querySelector(".check").addEventListener("click", function () {
 const resetGameValues = function () {
   secretNumber = generateSecretNumber();
   score = 30;
+  document.querySelector("header > h1").textContent = "Guess The Number!";
   document.querySelector("body").style.backgroundColor = "#222";
   document.querySelector(".number").style.cssText = `
     width: 15rem;
@@ -66,8 +71,8 @@ const resetGameValues = function () {
 
 document.querySelector(".again").addEventListener("click", function () {
   resetGameValues();
-  document.querySelector(".score").textContent = score;
-  document.querySelector(".number").textContent = "?";
-  document.querySelector(".guess").value = "";
-  displayMessage("Start guessing...");
+  display("score", score);
+  display("number", "?");
+  display("guess", "");
+  display("message", "Start guessing...");
 });
