@@ -60,6 +60,13 @@ const handleWrongGuess = function (guess) {
   }
 };
 
+guessSelector.addEventListener("keyup", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    checkSelector.click();
+  }
+});
+
 checkSelector.addEventListener("click", function () {
   const guess = Number(guessSelector.value);
   if (!guess || guess > 30 || guess < 0) {
