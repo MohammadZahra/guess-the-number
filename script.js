@@ -1,5 +1,19 @@
 "use strict";
 
+//Trick Modal Selectors
+const trick = document.querySelector(".trick");
+const overlay = document.querySelector(".overlay");
+const btnCloseTrick = document.querySelector(".close-trick");
+const btnShowTrick = document.querySelector(".show-trick");
+
+//Game Selectors
+const numberSelector = document.querySelector(".number");
+const guessSelector = document.querySelector(".guess");
+const bodySelector = document.querySelector("body");
+const checkSelector = document.querySelector(".check");
+const againSelector = document.querySelector(".again");
+const mainLableSelector = document.querySelector(".lable-main");
+
 let secretNumber = generateSecretNumber();
 let score = 30;
 let highscore = 0;
@@ -13,8 +27,8 @@ const display = function (selected, todisplay) {
 };
 
 const displayWinColors = function () {
-  document.querySelector("body").style.backgroundColor = "#60b347";
-  document.querySelector(".number").style.cssText = `
+  bodySelector.style.backgroundColor = "#60b347";
+  numberSelector.style.cssText = `
     width: 30rem;
     border-radius: 25%;
   `;
@@ -26,8 +40,7 @@ const handleCorrectGuess = function () {
   displayWinColors();
   if (score > highscore) {
     if (highscore) {
-      document.querySelector("header > h1").textContent =
-        "🎉Congrats for a new Highscore🎉";
+      mainLableSelector.textContent = "🎉Congrats for a new Highscore🎉";
     }
     highscore = score;
     display("highscore", highscore);
@@ -47,8 +60,8 @@ const handleWrongGuess = function (guess) {
   }
 };
 
-document.querySelector(".check").addEventListener("click", function () {
-  const guess = Number(document.querySelector(".guess").value);
+checkSelector.addEventListener("click", function () {
+  const guess = Number(guessSelector.value);
   if (!guess || guess > 30 || guess < 0) {
     display("message", "❌ Invalid number");
   } else if (guess === secretNumber) {
@@ -61,18 +74,39 @@ document.querySelector(".check").addEventListener("click", function () {
 const resetGameValues = function () {
   secretNumber = generateSecretNumber();
   score = 30;
-  document.querySelector("header > h1").textContent = "Guess The Number!";
-  document.querySelector("body").style.backgroundColor = "#222";
-  document.querySelector(".number").style.cssText = `
+  mainLableSelector.textContent = "Guess The Number!";
+  bodySelector.style.backgroundColor = "#222";
+  numberSelector.style.cssText = `
     width: 15rem;
     border-radius: 0%;
   `;
 };
 
-document.querySelector(".again").addEventListener("click", function () {
+againSelector.addEventListener("click", function () {
   resetGameValues();
   display("score", score);
   display("number", "?");
   display("guess", "");
   display("message", "Start guessing...");
+});
+
+// Trick Modal
+const showTrick = function () {
+  trick.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+};
+
+const closeTrick = function () {
+  trick.classList.add("hidden");
+  overlay.classList.add("hidden");
+};
+
+btnShowTrick.addEventListener("click", showTrick);
+btnCloseTrick.addEventListener("click", closeTrick);
+overlay.addEventListener("click", closeTrick);
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape" && !trick.classList.contains("hidden")) {
+    closeTrick();
+  }
 });

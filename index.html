@@ -9,10 +9,11 @@
   </head>
   <body>
     <header>
-      <h1>Guess The Number!</h1>
+      <h1 class="lable-main">Guess The Number!</h1>
       <p class="between">(Between 1 and 30)</p>
       <button class="btn again">Again!</button>
       <div class="number">?</div>
+      <button class="show-trick">Click here to learn a Trick!</button>
     </header>
     <main>
       <section class="left">
@@ -27,6 +28,20 @@
         </p>
       </section>
     </main>
+    <div class="trick hidden">
+      <button class="close-trick">&times;</button>
+      <h2>Binary Search Algorithm 🔥</h2>
+      <p>Using this approach you can find a number in a sorted list quickly:</p>
+      <br />
+      <ol>
+        <li>Start in the middle.</li>
+        <li>If it's a match, you're done.</li>
+        <li>If it's too low, look in the greater half.</li>
+        <li>If it's too high, look in the smaller half.</li>
+        <li>Repeat until you find the number.</li>
+      </ol>
+    </div>
+    <div class="overlay hidden"></div>
     <script src="script.js"></script>
   </body>
 </html>
